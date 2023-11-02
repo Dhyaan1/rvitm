@@ -80,9 +80,9 @@
 
   .course-active-button{
     color: #9c27b0;
-    
-    padding-left: 15px;
-    padding-right: 15px;
+    min-width: 33%;
+    padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 10px;
     border-bottom: 2px solid #9c27b0;
     
@@ -96,9 +96,10 @@
     .course-inactive-button{
       color: #343a40;
       border-top: 2px solid white ;
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 25px;
+      padding-right: 25px;
       padding-bottom: 10px;
+      min-width: 33%;
       
       }
       

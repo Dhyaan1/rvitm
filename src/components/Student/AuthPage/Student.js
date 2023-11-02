@@ -63,9 +63,6 @@ const Student = () => {
     setError("");
     setIsLoading(true); // Set loading state to true
 
-
-
-    
     try {
       await signInWithEmailAndPassword(auth, email, password)
         .then(async (res) => {
@@ -180,7 +177,7 @@ const Student = () => {
               type="email"
               className="formcontrol"
               name="email"
-              id="email"
+              id="email"cform
               value={email}
               style={{ backgroundColor: 'white' ,borderRadius: '25px'}}
               onChange={(e) => setEmail(e.target.value)}

@@ -14,7 +14,7 @@ const FacultyProtectedRoute = ({ children }) => {
     const fetchData = async () => {
       if (user) {
         try {
-          const userRef = doc(db, 'users', user.uid);
+          const userRef = doc(db, 'facultyUsers', user.email);
           const userDoc = await getDoc(userRef);
 
           if (userDoc.exists()) {
@@ -42,7 +42,7 @@ const FacultyProtectedRoute = ({ children }) => {
     return null; // or show a loading spinner/placeholder while waiting for userData
   }
 
-  if (userData.type === 'faculty') {
+  if (userData) {
     return children;
   } else {
     return <Navigate to="/faculty" />;

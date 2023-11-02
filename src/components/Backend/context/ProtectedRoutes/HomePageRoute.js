@@ -9,7 +9,7 @@ const HomePageRoute = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => {  
       if (user) {
         try {
           const userRef = doc(db, 'users', user.uid);

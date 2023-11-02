@@ -29,11 +29,12 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ListItem from '@mui/material/ListItem';
 import { AiOutlineRightCircle } from 'react-icons/ai'
 import { NavLink } from "react-router-dom";
-
 import {  ListItemText, ListItemButton } from "@mui/material";
 import { CheckCircleOutline } from "@mui/icons-material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { BsFillCalendarCheckFill } from "react-icons/bs";
+import { IoIosTime } from "react-icons/io"
 
 
 export default function AttendanceSession() {
@@ -720,7 +721,7 @@ export default function AttendanceSession() {
                   >
                     <div style={{ cursor: 'pointer', marginRight: '12px' }}>
                       <Typography sx={{ fontSize: 16 }}>
-                        {new Date(sessionObj.id).toLocaleDateString(
+                      {new Date(sessionObj.id).toLocaleDateString(
                           'en-US',
                           {
                             year: 'numeric',
@@ -728,9 +729,16 @@ export default function AttendanceSession() {
                             day: 'numeric',
                           }
                         )}{' '}
-                        ({sessionObj.data.sessionTime})
+                      {sessionObj.data.sessionTime ? ('['+sessionObj.data.sessionTime+']') : ''}
+                      </Typography>
+                      <div style={{ cursor: 'pointer', marginRight: '12px' }}>
+                      <Typography sx={{ fontSize: 16 }}>
+                      
+                      {sessionObj.data.classTopic ? ('Topic of Class: '+sessionObj.data.classTopic+'') : ''}
                       </Typography>
                     </div>
+                    </div>
+
                     <AiOutlineRightCircle
                       style={{
                         cursor: 'pointer',
@@ -1041,11 +1049,17 @@ export default function AttendanceSession() {
     <>
       <StudentTopNavbar text={"Attendance Records"}  />
       <FacultyMobileNav />
-      {progress === 0 && stepOne}
+      <div className='table-containerrr'>
+        <div className="table-containerrrr">
+          
+        {progress === 0 && stepOne}
 
-      {progress === 1 && stepTwo}
+{progress === 1 && stepTwo}
 
-      {progress === 2 && stepThree}
+{progress === 2 && stepThree}         
+          </div>
+          </div>
+
     </>
   );
 }

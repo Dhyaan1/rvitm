@@ -3,71 +3,97 @@ import './Student.css'
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth, firestore } from "../../Backend/Firebase/firebase";
 import { ErrorMessage } from "../../MiscComponents/ErrorMessage";
+import { db } from "../../Backend/Firebase/firebase";
+import {
+  getDocs,
+  doc,
+  collectionGroup,
+  query,
+  where,
+  setDoc
+} from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { sendEmailVerification, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+
 import { useUserAuth } from "../../Backend/context/UserAuthContext";
 
 const Signup = () => {
   const { logOut, user } = useUserAuth();
   const navigate = useNavigate();
   const [values, setValues] = useState({
-    name: "",
     email: "",
     pass: "",
-    usn: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Added loading state
 
-  const handleSubmission = () => {
-    if (!values.name || !values.email || !values.pass || !values.usn) {
-      setErrorMsg("Fill all fields");
-      return;
-    } else if (!values.email.includes("rvei.edu.in")) {
-      setErrorMsg("Only college email ID allowed");
+  const handleSubmission = async () => {
+    if (!isValidInput()) {
       return;
     }
+  
+    setIsLoading(true);
     setErrorMsg("");
-
     setSubmitButtonDisabled(true);
-    setIsLoading(true); // Set loading state to true
-
-    createUserWithEmailAndPassword(auth, values.email, values.pass)
-      .then(async (res) => {
-        const user = res.user;
-        await updateProfile(user, {
-          displayName: values.name,
-        });
-        await sendEmailVerification(user);
-
-        const userDocRef = doc(firestore, "users", user.uid);
-        await setDoc(userDocRef, {
-          name: values.name,
-          usn: values.usn,
-          email: values.email,
-          type: "student",
-        });
-
-        setIsLoading(false); // Set loading state to false
+  
+    try {
+      const studentSnapshot = await findStudentByEmail(values.email);
+      console.log(studentSnapshot.email)
+      
+      if (studentSnapshot.email === values.email) {
+        const user = await createUserAndProfile();
+        setIsLoading(false);
         setSubmitButtonDisabled(false);
-        alert(
-          "Please click the link in the email that has been sent to your email address to activate your account. Alternatively, you can login with Google."
-        );
+        alert("Please check your email to activate your account.");
         navigate("/student");
-        try {
-          await logOut();
-        } catch (err) {
-          console.log(err);
-        }
-      })
-      .catch((err) => {
-        setIsLoading(false); // Set loading state to false
-        setSubmitButtonDisabled(false);
-        setErrorMsg(err.message);
-      });
+        await logOut();
+      } else {
+        alert("No records Found");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      handleSubmissionError(err);
+    }
+  };
+  
+  const isValidInput = () => {
+    if ( !values.email || !values.pass ) {
+      setErrorMsg("Fill all fields");
+      return false;
+    } 
+    return true;
+  };
+  
+  const findStudentByEmail = async (email) => { 
+    const queryPath = 'students';
+    const collectionGroupRef = collectionGroup(db, queryPath);
+    const studentQuery = query(collectionGroupRef, where('email', '==', email));
+    const studentSnapshot = await getDocs(studentQuery);
+    return studentSnapshot;
+  };
+  
+  const createUserAndProfile = async () => {
+    const res = await createUserWithEmailAndPassword(auth, values.email, values.pass);
+    const user = res.user;
+
+    await sendEmailVerification(user);
+  
+    const userDocRef = doc(firestore, "users", user.uid);
+    await setDoc(userDocRef, {
+      email: values.email,
+      type: "student",
+    });
+  
+    return user;
+  };
+  
+  const handleSubmissionError = (err) => {
+    setIsLoading(false);
+    setSubmitButtonDisabled(false);
+    setErrorMsg(err.message);
+    console.error(err);
   };
 
   return (
@@ -81,40 +107,8 @@ const Signup = () => {
           <h5 class="signuphead" style={{ marginBottom: "30px" }}>
             Sign up to your Student Account
           </h5>
-          <div class="form-group">
-            <input
-              type="text"
-              class="formcontrol"
-              name="name"
-              id="name"
-              autoComplete="off"
-              value={values.name}
-              onChange={(e) =>
-                setValues({ ...values, name: e.target.value })
-              }
-              required
-            />
-            <label htmlFor="name" style={{ marginLeft: "5px" }}>
-              Enter your name
-            </label>
-          </div>
-          <div class="form-group">
-            <input
-              type="text"
-              class="formcontrol"
-              name="usn"
-              id="usn"
-              autoComplete="off"
-              value={values.usn}
-              onChange={(e) =>
-                setValues({ ...values, usn: e.target.value })
-              }
-              required
-            />
-            <label htmlFor="usn" style={{ marginLeft: "5px" }}>
-              Enter your USN
-            </label>
-          </div>
+          
+
           <div class="form-group">
             <input
               type="email"

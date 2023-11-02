@@ -55,7 +55,7 @@ const CourseTopNavbar = ({ text, handleLogout }) => {
                 : "course-inactive-button"
             }>
               
-            Class Schedule
+            Schedule
       
             </NavLink>
         </div>
@@ -69,7 +69,7 @@ const CourseTopNavbar = ({ text, handleLogout }) => {
                 : "course-inactive-button"
             }>
              
-            Course Material
+            Material
       
             </NavLink>
         </div>

@@ -55,6 +55,7 @@ export default function NewAttendanceSessionPage() {
 
   const [ subjectElective, setSubjectElective] = useState('');
   const [ electiveStudentsUSN, setElectiveStudentUSN ] = useState([]);
+  const [ classTopic, setClassTopic] = useState('');
 
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export default function NewAttendanceSessionPage() {
             presentCount++;
           } else {
             absentCount++;
-          }
+          } 
         });
   
     if (attendance.length > 0 && presentCount > 0) {
@@ -228,6 +229,7 @@ export default function NewAttendanceSessionPage() {
           updatedBy: user.email,
           sessionTime: sessionTime,
           labBatch: selectedBatch ? selectedBatch : "theory",
+          classTopic: classTopic
         };
   
         await setDoc(
@@ -456,7 +458,10 @@ export default function NewAttendanceSessionPage() {
     setSelectedBatch(null);
       
   };
-  
+
+  const handleTopicChange = (event) => {
+    setClassTopic(event.target.value)
+  }  
   const stepOne = (
     
     <div className="step1-body">
@@ -528,6 +533,21 @@ export default function NewAttendanceSessionPage() {
   </Select>
 </FormControl>
     )}
+
+{selectedClassName && (
+  <FormControl style={{ width: '100%', maxWidth: '100%', marginTop: '15px', textOverflow: 'ellipsis' }}>
+
+    <TextField
+      value={classTopic}
+      onChange={(event) => {
+        handleTopicChange(event);
+      }}
+      label="Topic of the Class"
+      variant="outlined"
+      style={{ width: '100%', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }}
+    />
+  </FormControl>
+)}
   </div>
 )}
 

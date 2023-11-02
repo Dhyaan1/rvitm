@@ -94,8 +94,8 @@ const FacultyDashboard = () => {
 <img src={None} style={{ width: '80px', borderRadius: '50%', padding: '12px' }} />
   
   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginLeft: '10px' }}>
-    <p style={{ color: '#0f0f0f', padding: '0', margin: 0, fontSize: '16px' }}>Welcome Deepak D J</p>
-    <p style={{ color: 'grey', padding: '0', margin: 0, fontSize: '12px' }}>Assistant Professor, Dept of ISE</p>
+    <p style={{ color: '#0f0f0f', padding: '0', margin: 0, fontSize: '16px' }}>Welcome Admin</p>
+    <p style={{ color: 'grey', padding: '0', margin: 0, fontSize: '12px' }}> Dept of ISE</p>
   </div>
   
 </div>

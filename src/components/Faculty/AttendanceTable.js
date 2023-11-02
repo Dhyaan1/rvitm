@@ -21,6 +21,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import ShareIcon from "@mui/icons-material/Share";
 import { Select } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -331,13 +332,14 @@ export function AttendanceTable() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "attendance_data.csv";
+    link.download = selectedClassName+"-"+selectedSubject+"-attendance.csv";
     link.click();
   
     // Clean up temporary URL
     URL.revokeObjectURL(url);
   };
   
+ 
   
 
   return (
@@ -491,9 +493,9 @@ export function AttendanceTable() {
           </div>
         )}
 
- {selectedSubject && (<Button variant="contained" style={{marginTop: '10px'}} color="secondary"  onClick={exportTableAsCSV}>
-  Export CSV
-</Button>)}
+ {selectedSubject && (<><Button variant="contained" style={{ marginTop: '10px' }} color="secondary" onClick={exportTableAsCSV}>
+          Export CSV
+        </Button></>)}
 
 <div className="custom-table">
   {attendanceData.length > 0 ? (
@@ -501,28 +503,35 @@ export function AttendanceTable() {
      <table className="responsive-table">
         <thead className="sticky-header">
           <tr className="table-row">
-            <th className="table-header" style={{ backgroundColor: "#2f2f2f" }}>
+            <th className="table-header" style={{ backgroundColor: "#2f2f2f" , color: 'white', textAlign: 'center', textTransform: 'uppercase'}}>
               Name
             </th>
-            <th className="table-header" style={{ backgroundColor: "#2f2f2f" }}>
+            <th className="table-header" style={{ backgroundColor: "#2f2f2f" , color: 'white', textAlign: 'center', textTransform: 'uppercase' }}>
               USN
             </th>
-            <th className="table-header" style={{ backgroundColor: "#2f2f2f" }}>
+            <th className="table-header" style={{ backgroundColor: "#2f2f2f" , color: 'white', textAlign: 'center', textTransform: 'uppercase' }}>
               Classes Held
             </th>
-            <th className="table-header" style={{ backgroundColor: "#2f2f2f" }}>
+            <th className="table-header" style={{ backgroundColor: "#2f2f2f" , color: 'white', textAlign: 'center', textTransform: 'uppercase' }}>
               Classes Attended
             </th>
-            <th className="table-header" style={{ backgroundColor: "#2f2f2f" }}>
+            <th className="table-header" style={{ backgroundColor: "#2f2f2f" , color: 'white', textAlign: 'center', textTransform: 'uppercase' }}>
               Attendance Percentage
             </th>
             {attendanceData.map((data) => (
               <th
                 className="table-header"
                 key={data.date}
-                style={{ backgroundColor: "#2f2f2f" }}
+                style={{ backgroundColor: "#2f2f2f"  , color: 'white', textAlign: 'center', textTransform: 'uppercase', border: '1px solid white' }}
               >
-                <div>{data.date.substring(0, 10)}</div>
+                <div>{new Date(data.date).toLocaleDateString(
+                          'en-US',
+                          {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          }
+                        )}</div>
                 <div>{data.sessionTime}</div>
               </th>
             ))}

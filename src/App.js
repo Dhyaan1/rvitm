@@ -1,5 +1,3 @@
-
-
 import Navbar from './components/Navbar/Navbar';
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Home from './components/HomePage/Home';
@@ -7,16 +5,11 @@ import Faculty from './components/Faculty/Faculty';
 import Student from './components/Student/AuthPage/Student';
 import Department from './components/Department/Department';
 import Signup from './components/Student/AuthPage/Signup';
-
-
-import ProtectedRoute from './components/Backend/context/ProtectedRoutes/ProtectedRoute';
-
+import ProtectedRoute from './components/Backend/context/ProtectedRoutes/ProtectedRoute'
 import { UserAuthContextProvider } from './components/Backend/context/UserAuthContext';
 import AdminProtectedRoute from './components/Backend/context/ProtectedRoutes/AdminProtectedRoute';
 import AdminDashboard from './components/Department/AdminDashboard';
 import ManageFaculty from './components/Department/ManageFaculty';
-
-
 import AttendanceSession from './components/Faculty/AttendanceSession';
 import Events from './components/OtherPages/Events';
 import FacultyProtectedRoute from './components/Backend/context/ProtectedRoutes/FacultyProtectedRoute';
@@ -42,6 +35,7 @@ import NewAttendanceSessionPage from './components/Faculty/NewAttendanceSessionP
 import CoursePage from './components/Student/CourseSection/CoursePage';
 import CourseMaterial from './components/Student/CourseSection/CourseMaterial/CourseMaterial';
 import Assignment from './components/Student/CourseSection/Assignment';
+import FacultySidebar from './components/Faculty/FacultySidebar';
 
 
 
@@ -53,8 +47,7 @@ function App() {
     <>
      
  
-      <BrowserRouter>
-      
+      <BrowserRouter>      
       
       <UserAuthContextProvider>
       <Routes>
@@ -72,9 +65,6 @@ function App() {
         <Route path="/student/signup" element = {<><Signup /></>}/>
         <Route path="/department" element = {<HomePageRoute><Department/></HomePageRoute>}/> 
         <Route path="/auth/forgotpassword" element = {<><ForgotPassword /></>}/> 
-  
-
-
         <Route path="/testingg" element = {<><DataTestFirebase /></>}/>  
     
 
@@ -177,6 +167,7 @@ function App() {
                 path="/faculty/dashboard/attendance" 
                 element={
                   <FacultyProtectedRoute >
+                    <FacultySidebar />
                     <AttendanceSession/>
                   </FacultyProtectedRoute>
                 }
@@ -185,6 +176,7 @@ function App() {
                 path="/faculty/dashboard/attendance/new" 
                 element={
                   <FacultyProtectedRoute >
+                    <FacultySidebar/>
                     <NewAttendanceSessionPage/>
                   </FacultyProtectedRoute>
                 }

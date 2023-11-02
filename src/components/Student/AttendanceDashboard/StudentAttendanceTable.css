@@ -9,7 +9,14 @@
   
 }
 
+.table-containerrrr {
+  overflow: auto;
 
+  width: 450px;
+  max-width: 100%;
+
+  
+}
 
 
 .table-containerr thead th {
